@@ -1,0 +1,29 @@
+
+node {
+
+stage('GitCheckOut') {
+
+git branch: 'main', credentialsId: '01', url: 'https://github.com/komali100/capstone-devops.git'
+
+}
+
+stage('Maven Clean') {
+
+sh 'mvn clean -f 01-jenkins/petclinic-code/pom.xml'
+
+}
+
+stage('Maven Compile') {
+sh 'mvn compile -f 01-jenkins/petclinic-code/pom.xml'
+}
+
+stage('Maven test') {
+sh 'mvn test -f 01-jenkins/petclinic-code/pom.xml'
+}
+stage('Maven pkg') {
+sh 'mvn package -f 01-jenkins/petclinic-code/pom.xml'
+}
+stage('Archive Artifacts') {
+archive '01-jenkins/petclinic-code/target/*.war'    
+}
+}
