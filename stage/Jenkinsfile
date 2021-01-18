@@ -1,0 +1,55 @@
+node {
+// Get Artifactory server instance, defined in the Artifactory Plugin administration page.
+    def server = Artifactory.server "01"
+    def buildInfo = Artifactory.newBuildInfo() 
+
+// Project Dir
+    def project_path = "01-jenkins/petclinic-code"
+
+  stage('GitCheckOut') {
+  git branch: 'main', url: 'https://github.com/komali100/capstone-devops.git'
+}
+
+dir(project_path){
+stage('maven clean') {
+  sh '''mvn clean''' 
+}
+stage('maven compile') {
+  sh '''mvn compile'''
+}
+stage('maven test') {
+  sh '''mvn test'''
+}
+stage('maven pkg') {
+  sh '''mvn package'''
+}
+stage('Build Managment') {
+      def uploadSpec = """{
+	 "files": [
+	{
+	"pattern": "**/*.war",
+	"target": "petclinic-war"
+        }
+	]
+	}"""
+	server.upload spec: uploadSpec
+ }
+
+stage('Publish build info') {
+
+  server.publishBuildInfo buildInfo
+
+}
+
+  stage('Archive Artifacts') {
+  archive 'target/*.war'
+  }
+
+stage('Deployment - PreProd'){
+sh 'docker-compose up -d --build'
+}
+} 
+stage('Deployment - Stage'){
+   deploy adapters: [tomcat8(credentialsId: '02', path: '', url: 'http://oysup74925dns.eastus2.cloudapp.azure.com:8080/')], contextPath: 'petclinic', onFailure: false, war: '01-jenkins/petclinic-code/target/petclinic.war'
+}
+}
