@@ -1,37 +1,28 @@
-
 node {
 // Get Artifactory server instance, defined in the Artifactory Plugin administration page.
-
     def server = Artifactory.server "01"
-    def buildInfo = Artifactory.newBuildInfo()
+    def buildInfo = Artifactory.newBuildInfo() 
 
 // Project Dir
+    def project_path = "01-jenkins/petclinic-code"
 
-    def project_path = "01-Jenkins/petclinic-code"
-
-
-stage('GitCheckOut') {
-git branch: 'main', credentialsId: '01', url: 'https://github.com/amitvashisttech/devops301-mindtree-09-Jan-2021.git'
+  stage('GitCheckOut') {
+  git branch: 'main', url: 'https://github.com/komali100/capstone-devops.git'
 }
 
 dir(project_path){
-
-stage('Maven Clean') {
-sh 'mvn clean'
+stage('maven clean') {
+  sh '''mvn clean''' 
 }
-
-stage('Maven Compile') {
-sh 'mvn compile'
+stage('maven compile') {
+  sh '''mvn compile'''
 }
-
-stage('Maven test') {
-sh 'mvn test'
+stage('maven test') {
+  sh '''mvn test'''
 }
-
-stage('Maven pkg') {
-sh 'mvn package'
+stage('maven pkg') {
+  sh '''mvn package'''
 }
-
 stage('Build Managment') {
       def uploadSpec = """{
 	 "files": [
@@ -45,18 +36,20 @@ stage('Build Managment') {
  }
 
 stage('Publish build info') {
+
   server.publishBuildInfo buildInfo
+
 }
 
-stage('Archive Artifacts') {
-archive 'target/*.war'    
-}
-stage('Deployment - PreProd') {
+  stage('Archive Artifacts') {
+  archive 'target/*.war'
+  }
+
+stage('Deployment - PreProd'){
 sh 'docker-compose up -d --build'
 }
-}
-
+} 
 stage('Deployment - Stage'){
- deploy adapters: [tomcat8(credentialsId: '02', path: '', url: 'http://172.31.0.201:8080/')], contextPath: 'petclinic', onFailure: false, war: '01-Jenkins/petclinic-code/target/petclinic.war'
+   deploy adapters: [tomcat8(credentialsId: '02', path: '', url: 'http://oysup74925dns.eastus2.cloudapp.azure.com:8080/')], contextPath: 'petclinic', onFailure: false, war: '01-jenkins/petclinic-code/target/petclinic.war'
 }
 }
