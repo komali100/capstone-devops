@@ -7,7 +7,7 @@ node {
     def project_path = "petclinic-code"
 
   stage('GitCheckOut') {
-  git branch: 'main', url: 'https://github.com/komali100/capstone-devops.git'
+  git branch: 'preprod', url: 'https://github.com/komali100/capstone-devops.git'
 }
 
 dir(project_path){
