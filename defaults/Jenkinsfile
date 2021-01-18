@@ -20,7 +20,7 @@ stage('maven pkg') {
   stage('Archive Artifacts') {
   archive 'target/*.war'
 }
-stage('Deployment - PreProd){
+stage('Deployment - PreProd'){
 sh 'docker-compose up -d --build'
 } 
 }
