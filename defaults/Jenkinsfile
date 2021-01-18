@@ -18,7 +18,7 @@ stage('maven pkg') {
   sh '''mvn package'''
 }
   stage('Archive Artifacts') {
-  archive 'target/*.war
+  archive 'target/*.war'
 }
 } 
 stage('Tomcat Deployment'){
