@@ -4,7 +4,7 @@ node {
     def buildInfo = Artifactory.newBuildInfo() 
 
 // Project Dir
-    def project_path ="petclinic-code"
+    def project_path ="Download"
 
   stage('GitCheckOut') {
   git branch: 'stage', url: 'https://github.com/komali100/capstone-devops.git'
