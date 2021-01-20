@@ -1,0 +1,25 @@
+---
+
+- hosts: web
+
+  name: WebServer setup
+  become: yes
+  tasks:
+  - name: Installing Apache2 Packages
+    yum: name=httpd state=present
+
+  - name: Start Apache2 service
+    service: name=httpd state=started
+
+- hosts: web
+  name: NTP Installation
+  become: yes
+  tasks:
+  - name: Installing NTP Packages 
+    yum: name=ntp state=present
+
+- hosts: web
+  become: yes
+  tasks:
+  - name: Checking Kernel Details 
+    command: 'uname -a'

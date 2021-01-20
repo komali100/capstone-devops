@@ -1,0 +1,15 @@
+---
+
+- hosts: web
+
+  name: WebServer setup
+  become: yes
+  tasks:
+  - name: Installing Apache2 Packages
+    yum: name=httpd state=present
+
+  - name: Start Apache2 service
+    service: name=httpd state=started
+
+  - name: Disable Firewall
+    service: name=firewalld state=stopped enabled=False
