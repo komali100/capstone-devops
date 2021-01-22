@@ -1,0 +1,8 @@
+---
+
+- hosts: tomcat
+  connection: local
+  name: "My Tomcat App Server Deployment"
+  become: yes
+  roles:
+    - tomcat

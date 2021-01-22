@@ -1,0 +1,8 @@
+---
+
+- hosts: localhost
+  connection: local
+  name: "My petclinic App Server Deployment"
+  become: yes
+  roles:
+    - petclinic

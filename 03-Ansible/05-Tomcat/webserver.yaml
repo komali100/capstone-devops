@@ -1,0 +1,18 @@
+---
+
+- hosts: web
+
+  name: WebServer setup
+  become: yes
+  tasks:
+  - name: Installing Apache2 Packages
+    yum: name=httpd state=present
+
+  - name: Start Apache2 service
+    service: name=httpd state=started
+
+  - name: Deploy Custom web page
+    copy: src=files/index.html dest=/var/www/html/
+
+  - name: Deploy Custom web page
+    template: src=templates/info.j2 dest=/var/www/html/info.html
