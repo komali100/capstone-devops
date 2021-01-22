@@ -19,7 +19,7 @@ stage('Build Managment') {
 	]
 	}"""
 	server.download spec: downloadSpec
-}
+ }
 
 stage('Getting Ready for Ansible Deploy'){
    sh "echo \'<h1> TASK BUILD ID: ${env.BUILD_DISPLAY_NAME}</h1>\'  > roles/petclinic/files/jenkins.html"
