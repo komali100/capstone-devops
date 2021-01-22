@@ -4,7 +4,7 @@ node {
     def buildInfo = Artifactory.newBuildInfo() 
 
   stage('GitCheckOut') {
-  git branch: 'production', url: 'https://github.com/komali100/capstone-devops301-mindtree-09-Jan-2021.git'
+  git branch: 'production', url: 'https://github.com/komali100/capstone-devops.git'
 }
 stage('Build Managment') {
       def downloadSpec = """{
